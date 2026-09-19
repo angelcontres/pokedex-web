@@ -22,12 +22,25 @@ export default function App() {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(() => {
+    return new URLSearchParams(window.location.search).get('search') || '';
+  });
   const [selectedGen, setSelectedGen] = useState<number | null>(1);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('id-asc');
 
   const [selectedPokemon, setSelectedPokemon] = useState<PokemonDetail | null>(null);
+
+  // Abrir modal si viene especificado en la URL (?id=...)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
+    if (idParam) {
+      getPokemonDetail(Number(idParam) || 6).then((p) => {
+        setSelectedPokemon(p);
+      });
+    }
+  }, []);
 
   // Carga inicial y cambio de generación
   useEffect(() => {
