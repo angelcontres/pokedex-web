@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Informe de Práctica: Consumo de APIs REST - Pokédex Web</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm 12mm 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.4;
+      margin: 0;
+      padding: 0;
+      font-size: 10pt;
+      background: #ffffff;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2.5px solid #dc2626;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 13pt;
+      margin: 0 0 2px 0;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .header h2 {
+      font-size: 10pt;
+      font-weight: 600;
+      margin: 0 0 2px 0;
+      color: #475569;
+    }
+    .header h3 {
+      font-size: 9pt;
+      font-weight: 500;
+      margin: 0;
+      color: #64748b;
+    }
+    .meta-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      font-size: 9pt;
+    }
+    .meta-box p {
+      margin: 0;
+    }
+    .meta-box strong {
+      color: #0f172a;
+    }
+    .repo-link {
+      grid-column: span 2;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 6px 10px;
+      border-radius: 5px;
+      margin-top: 2px;
+    }
+    .repo-link a {
+      color: #1d4ed8;
+      font-weight: bold;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    h2.section-title {
+      font-size: 11pt;
+      color: #0f172a;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    p {
+      margin: 0 0 8px 0;
+      text-align: justify;
+    }
+    ul, ol {
+      margin: 0 0 10px 0;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+    .figure {
+      margin: 10px 0 14px 0;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+    .figure img {
+      width: 100%;
+      max-height: 290px;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .figure-caption {
+      font-size: 8.5pt;
+      color: #475569;
+      margin-top: 4px;
+    }
+    .table-tech {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 9pt;
+    }
+    .table-tech th, .table-tech td {
+      border: 1px solid #cbd5e1;
+      padding: 5px 8px;
+      text-align: left;
+    }
+    .table-tech th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .code-block {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      overflow-x: auto;
+      margin: 6px 0;
+      page-break-inside: avoid;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PÁGINA 1 -->
+  <div class="header">
+    <h1>Universidad Estatal Península de Santa Elena</h1>
+    <h2>Facultad de Sistemas y Telecomunicaciones</h2>
+    <h3>Carrera de Tecnologías de la Información</h3>
+  </div>
+
+  <div class="meta-box">
+    <p><strong>Asignatura:</strong> Desarrollo de Aplicaciones Web</p>
+    <p><strong>Fecha:</strong> Septiembre 2026</p>
+    <p><strong>Estudiante:</strong> Ángel Alejandro Villón Panimboza</p>
+    <p><strong>Tema:</strong> Consumo de APIs REST (PokéAPI Web App)</p>
+    <div class="repo-link">
+      <strong>Repositorio Oficial en GitHub:</strong> 
+      <a href="https://github.com/angelcontres/pokedex-web">https://github.com/angelcontres/pokedex-web</a>
+    </div>
+  </div>
+
+  <h2 class="section-title">1. Introducción y Objetivos</h2>
+  <p>
+    El presente informe documenta el desarrollo de una aplicación web moderna y reactiva construida con <strong>React 19</strong>, <strong>TypeScript</strong> y <strong>Tailwind CSS</strong>, cuyo objetivo principal es consumir y presentar datos en tiempo real provenientes de la API pública <strong>PokéAPI</strong> (v2).
+  </p>
+  <p><strong>Objetivos de la práctica:</strong></p>
+  <ul>
+    <li>Implementar peticiones asíncronas HTTP (GET) a los endpoints de la PokéAPI mediante la función nativa <code>fetch</code> de JavaScript.</li>
+    <li>Optimizar el rendimiento mediante una estructura de caché en memoria (<code>Map</code>) para evitar consultas redundantes.</li>
+    <li>Estructurar una interfaz semántica de dos columnas utilizando las etiquetas HTML5 <code>&lt;main&gt;</code> para el catálogo y <code>&lt;aside&gt;</code> para el panel de filtrado lateral.</li>
+    <li>Facilitar la búsqueda en tiempo real por nombre o número de Pokédex, así como filtros combinados por región/generación y tipo elemental.</li>
+  </ul>
+
+  <h2 class="section-title">2. Tecnologías Empleadas</h2>
+  <table class="table-tech">
+    <thead>
+      <tr>
+        <th>Tecnología</th>
+        <th>Propósito en el Proyecto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>React 19</strong></td>
+        <td>Desarrollo de la interfaz de usuario mediante componentes funcionales y Hooks (<code>useState</code>, <code>useEffect</code>, <code>useMemo</code>, <code>useCallback</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>TypeScript</strong></td>
+        <td>Tipado estático riguroso para modelar las respuestas JSON de la API (interfaces de Pokémon, tipos y especies).</td>
+      </tr>
+      <tr>
+        <td><strong>Tailwind CSS v4</strong></td>
+        <td>Framework de utilidades para un diseño moderno, responsivo y modo oscuro limpio.</td>
+      </tr>
+      <tr>
+        <td><strong>Vite</strong></td>
+        <td>Entorno de desarrollo y empaquetador para una compilación ágil y optimizada.</td>
+      </tr>
+      <tr>
+        <td><strong>PokéAPI REST v2</strong></td>
+        <td>Servicio web público proveedor de los datos de Pokémon, ilustraciones oficiales y textos de Pokédex.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">3. Arquitectura del Consumo de la API</h2>
+  <p>
+    La aplicación implementa un consumo eficiente en dos fases:
+  </p>
+  <ol>
+    <li>
+      <strong>Lista Maestra Inicial:</strong> Al cargar, se solicita al endpoint <code>/pokemon?limit=1025</code> la lista de nombres e IDs para permitir búsquedas instantáneas en el cliente.
+    </li>
+    <li>
+      <strong>Carga por Lotes con Caché:</strong> Los detalles individuales de cada Pokémon se consultan en paralelo en bloques de 15 elementos y se guardan en un objeto <code>Map&lt;number, PokemonDetail&gt;</code>, asegurando que cada Pokémon se consulte solo una vez a la red.
+    </li>
+  </ol>
+
+  <div class="code-block">
+// Fragmento de pokeapi.ts: Consulta con memoria cach&eacute;
+export async function getPokemonDetail(idOrName: string | number): Promise&lt;PokemonDetail&gt; {
+  const key = typeof idOrName === 'string' ? idOrName.toLowerCase() : idOrName;
+  if (pokemonCache.has(key)) return pokemonCache.get(key)!;
+
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${key}`);
+  if (!res.ok) throw new Error('No se encontr&oacute; el Pok&eacute;mon');
+  const data = await res.json();
+  pokemonCache.set(data.id, data);
+  return data;
+}
+  </div>
+
+  <!-- PÁGINA 2: EVIDENCIAS Y CAPTURAS -->
+  <div class="page-break"></div>
+
+  <h2 class="section-title">4. Capturas de Pantalla de la Plataforma</h2>
+  <p>
+    A continuación se presentan las evidencias fotográficas de la plataforma implementada y su maquetación:
+  </p>
+
+  <div class="figure">
+    <img src="screenshot_main.png" alt="Vista Principal de la Pokédex">
+    <div class="figure-caption"><strong>Figura 1:</strong> Catálogo principal con distribución semántica de dos columnas: contenido principal (<code>&lt;main&gt;</code>) a la izquierda y panel de filtros fijos (<code>&lt;aside&gt;</code>) a la derecha.</div>
+  </div>
+
+  <div class="figure">
+    <img src="screenshot_search.png" alt="Búsqueda y Filtrado Dinámico">
+    <div class="figure-caption"><strong>Figura 2:</strong> Búsqueda en tiempo real por nombre de Pokémon con actualización instantánea de resultados y botón de limpieza de filtros.</div>
+  </div>
+
+  <!-- PÁGINA 3 -->
+  <div class="page-break"></div>
+
+  <div class="figure">
+    <img src="screenshot_modal.png" alt="Ficha Técnica Detallada">
+    <div class="figure-caption"><strong>Figura 3:</strong> Ventana modal de detalle: ilustración oficial, descripción en español obtenida de <code>/pokemon-species</code>, medidas físicas, barras de estadísticas base y habilidades.</div>
+  </div>
+
+  <h2 class="section-title">5. Conclusiones</h2>
+  <ul>
+    <li>El consumo de servicios web REST mediante <strong>fetch</strong> y <strong>TypeScript</strong> permite construir aplicaciones cliente modernas y altamente escalables que se abastecen de información pública en tiempo real.</li>
+    <li>La integración de una memoria caché en memoria (<code>Map</code>) optimiza drásticamente los tiempos de respuesta de la interfaz, reduciendo peticiones duplicadas y garantizando una experiencia fluida.</li>
+    <li>El uso de maquetación semántica mediante etiquetas de HTML5 (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> y <code>&lt;aside&gt;</code>) mejora la estructura del código, la accesibilidad web y permite una distribución espacial intuitiva para el usuario.</li>
+  </ul>
+
+  <h2 class="section-title">6. Enlace al Repositorio del Proyecto</h2>
+  <p>
+    El código fuente completo del proyecto, su configuración y componentes se encuentran publicados y disponibles en el repositorio de GitHub:
+  </p>
+  <div class="repo-link" style="text-align: center; font-size: 11pt; padding: 12px;">
+    <a href="https://github.com/angelcontres/pokedex-web" target="_blank">
+      🔗 https://github.com/angelcontres/pokedex-web
+    </a>
+  </div>
+
+</body>
+</html>
